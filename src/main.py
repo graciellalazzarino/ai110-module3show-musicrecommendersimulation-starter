@@ -26,19 +26,55 @@ def print_recommendations(profile_name: str, user_prefs: dict, songs: list, k: i
         print()
 
 
-def main() -> None:
-    """Load the catalog and print recommendations for the default profile."""
-    songs = load_songs("data/songs.csv")
-    print(f"Loaded songs: {len(songs)}\n")
-
-    user_prefs = {
+PROFILES = {
+    # Main profiles
+    "Happy Pop (default)": {
         "favorite_genre": "pop",
         "favorite_mood": "happy",
         "target_energy": 0.8,
         "likes_acoustic": False,
-    }
+    },
+    "Chill Lofi": {
+        "favorite_genre": "lofi",
+        "favorite_mood": "chill",
+        "target_energy": 0.4,
+        "likes_acoustic": True,
+    },
+    "Deep Intense Rock": {
+        "favorite_genre": "rock",
+        "favorite_mood": "intense",
+        "target_energy": 0.9,
+        "likes_acoustic": False,
+    },
+    # Edge cases: profiles meant to trick or stress the scoring logic
+    "EDGE: Sad but High Energy": {
+        "favorite_genre": "folk",
+        "favorite_mood": "sad",
+        "target_energy": 0.9,
+        "likes_acoustic": True,
+    },
+    "EDGE: Genre Not In Catalog": {
+        "favorite_genre": "k-pop",
+        "favorite_mood": "happy",
+        "target_energy": 0.7,
+        "likes_acoustic": False,
+    },
+    "EDGE: Acoustic Metalhead": {
+        "favorite_genre": "metal",
+        "favorite_mood": "angry",
+        "target_energy": 0.95,
+        "likes_acoustic": True,
+    },
+}
 
-    print_recommendations("Happy Pop (default)", user_prefs, songs)
+
+def main() -> None:
+    """Load the catalog and print recommendations for every test profile."""
+    songs = load_songs("data/songs.csv")
+    print(f"Loaded songs: {len(songs)}\n")
+
+    for name, user_prefs in PROFILES.items():
+        print_recommendations(name, user_prefs, songs)
 
 
 if __name__ == "__main__":
