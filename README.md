@@ -194,8 +194,6 @@ Full outputs and profile-by-profile comparisons are in the [Model Card](model_ca
 
 Read the full [**Model Card**](model_card.md), including my personal reflection.
 
-<!-- DRAFT: rewrite in your own words before submitting. -->
-
 Building VibeCheck showed me that a recommender is really two simple steps: a scoring rule that judges one song, and a ranking rule that sorts every song by that score. The "prediction" is just which songs end up closest to the profile on the features I chose to measure, and the weights I picked decide what "closest" means. Small choices, like making genre worth 2 points instead of 1, change what every listener sees.
 
-Bias showed up in two places. The data was uneven, so lofi fans got three strong matches while metal and folk fans got one. And the scoring rules favored songs like Gym Hero that score well on the heaviest-weighted features, even when they don't fit what the listener wants. In a real app with millions of users, the same kind of imbalance could keep pushing the same popular artists and genres while smaller ones rarely get recommended.
+Bias showed up in two places. The data was uneven, so lofi fans got three strong matches while metal and folk fans got one. And the scoring rules favored songs like Gym Hero that score well on the heaviest-weighted features, even when they don't fit what the listener wants. I really questioned why Gym Hero kept scoring higher than songs that matched the listener's mood, and when I looked deeper, the answer was that one fixed set of weights treats every genre the same. I think the system should change its scoring per genre: for pop, the mood and vibe probably matter more than the label, while for metal or classical the genre itself says a lot. In a real app with millions of users, the same kind of imbalance could keep pushing the same popular artists and genres while smaller ones rarely get recommended.
