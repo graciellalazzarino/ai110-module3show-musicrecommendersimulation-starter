@@ -11,7 +11,7 @@ Your goal is to:
 - Evaluate what your system gets right and wrong
 - Reflect on how this mirrors real world AI recommenders
 
-Replace this paragraph with your own summary of what your version does.
+**My version, VibeCheck 1.0,** reads an 18-song catalog from a CSV, scores every song against a listener's favorite genre, favorite mood, target energy, and acoustic preference, and prints the top 5 with a reason for every point awarded. I tested it with six profiles, including three edge cases, ran a weight experiment, and documented its biases in the [Model Card](model_card.md).
 
 ---
 
@@ -172,38 +172,30 @@ Profile: Happy Pop (default)
 
 ## Experiments You Tried
 
-Use this section to document the experiments you ran. For example:
+- **Six user profiles.** Three main tastes (Happy Pop, Chill Lofi, Deep Intense Rock) and three edge cases (Sad but High Energy, a genre that isn't in the catalog, and an acoustic-loving metal fan). Every profile's obvious best song came out #1, but the edge cases filled spots #2–5 with near-tied loud songs, and the sad listener got happy pop songs at #3 and #4.
+- **Weight shift: genre 2.0 to 1.0, energy 1.0 to 2.0.** The #1 song didn't change for any profile. For Happy Pop it was an improvement (Rooftop Lights, an actually happy song, moved above the intense Gym Hero); for the others the lower spots just reshuffled. I kept the original weights.
+- **Gym Hero** appeared in the top 5 for 5 of 6 profiles, because it's pop, intense, and very high energy all at once.
 
-- What happened when you changed the weight on genre from 2.0 to 0.5
-- What happened when you added tempo or valence to the score
-- How did your system behave for different types of users
+Full outputs and profile-by-profile comparisons are in the [Model Card](model_card.md#7-evaluation).
 
 ---
 
 ## Limitations and Risks
 
-Summarize some limitations of your recommender.
-
-Examples:
-
-- It only works on a tiny catalog
-- It does not understand lyrics or language
-- It might over favor one genre or mood
-
-You will go deeper on this in your model card.
+- Tiny, made-up catalog: 18 songs, and 13 of 15 genres have only one song, so fans of those genres get one good match and then filler.
+- Genre is worth twice as much as mood, so a genre match can outrank a song that actually fits the listener's mood.
+- Genre is an exact text match: "indie pop" earns nothing from a pop fan.
+- Ignores lyrics, language, tempo, valence, listening history, and context like working out vs. studying.
+- One genre and one mood per user, so mixed tastes can't be represented.
 
 ---
 
 ## Reflection
 
-Read and complete `model_card.md`:
+Read the full [**Model Card**](model_card.md), including my personal reflection.
 
-[**Model Card**](model_card.md)
+<!-- DRAFT: rewrite in your own words before submitting. -->
 
-Write 1 to 2 paragraphs here about what you learned:
+Building VibeCheck showed me that a recommender is really two simple steps: a scoring rule that judges one song, and a ranking rule that sorts every song by that score. The "prediction" is just which songs end up closest to the profile on the features I chose to measure, and the weights I picked decide what "closest" means. Small choices, like making genre worth 2 points instead of 1, change what every listener sees.
 
-- about how recommenders turn data into predictions
-- about where bias or unfairness could show up in systems like this
-
-
-
+Bias showed up in two places. The data was uneven, so lofi fans got three strong matches while metal and folk fans got one. And the scoring rules favored songs like Gym Hero that score well on the heaviest-weighted features, even when they don't fit what the listener wants. In a real app with millions of users, the same kind of imbalance could keep pushing the same popular artists and genres while smaller ones rarely get recommended.
