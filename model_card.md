@@ -521,6 +521,7 @@ Profile: EDGE: Acoustic Metalhead
 
 ## 8. Future Work  
 
+- **Scoring that changes per genre.** Instead of one set of weights for everyone, give each genre its own. A pop listener's list could weigh mood more heavily than the "pop" label, so an intense workout song can't outrank a happy one just by sharing the genre.
 - **Partial genre matches.** Give some points when genres are related (pop and indie pop, rock and metal) instead of all-or-nothing text matching.
 - **A diversity rule in the ranking step.** Limit the top 5 to one or two songs per genre or artist so a single song like Gym Hero can't appear in almost every list.
 - **Lower the genre weight or raise mood.** The experiment showed that a stronger energy weight fixed the Happy Pop list; giving mood more weight would likely fix it more directly.
@@ -532,10 +533,10 @@ Profile: EDGE: Acoustic Metalhead
 
 <!-- DRAFT: rewrite this in your own words and add your own details before submitting. -->
 
-**Biggest learning moment:** Seeing Gym Hero show up in 5 of 6 lists. Every individual rule seemed reasonable on its own, but together they let one loud pop song crowd out songs that actually matched what the listener asked for. The weights are a design choice with real consequences, not just numbers.
+**Biggest learning moment:** I really questioned why Gym Hero scored higher than Rooftop Lights for a happy pop listener, so I took a deeper look at its score breakdown. It wasn't a bug: Gym Hero got 2 points just for being labeled pop, which is more than a happy song gets for matching the mood. Every rule seemed reasonable on its own, but together they let one loud pop song show up in 5 of 6 lists. The weights are a design choice with real consequences, not just numbers.
 
-**How AI helped, and when I had to double-check:** The AI assistant was fast at explaining collaborative vs. content-based filtering, writing the CSV loader, and running the profiles and the weight experiment. It also caught that the starter `main.py` import would break `python -m src.main`. But I still had to check its work: it first said the catalog had 14 genres when there were actually 15, and that was only caught by counting the CSV directly. I learned to verify every number before putting it in a write-up.
+**How AI helped, and when I had to double-check:** The AI assistant was fast at explaining collaborative vs. content-based filtering, writing the CSV loader, and running the profiles and the weight experiment. It also caught that the starter `main.py` import would break `python -m src.main`. But I didn't just accept the rankings it produced. When Gym Hero kept appearing, I questioned the result and used the reasons printed for each song to trace exactly where its points came from.
 
-**What surprised me:** How much a four-rule point system *feels* like a real recommendation. The Chill Lofi list honestly looks like something I'd get from a study playlist. It also surprised me that the edge-case profiles didn't crash anything; they just gave confident, wrong answers, which is harder to notice than an error.
+**What surprised me:** How much a four-rule point system *feels* like a real recommendation. It also surprised me that the edge-case profiles didn't crash anything; they just gave confident, wrong answers, which is harder to notice than an error.
 
-**What I'd try next:** A diversity penalty so the same song can't dominate every list, and partial credit for related genres. I now understand why apps like Spotify mix in other listeners' behavior: with only song features, the system can't tell what people actually enjoy together.
+**What I'd try next:** Change the scoring per genre. One fixed set of weights treats every listener the same, but genre probably matters differently depending on the music: for pop, mood and vibe may matter more than the genre label, while for something like metal or classical the genre itself says a lot. Giving each genre its own weights would have stopped Gym Hero from winning on the "pop" label alone. I'd also add a diversity penalty so the same song can't dominate every list.
