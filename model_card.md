@@ -531,7 +531,6 @@ Profile: EDGE: Acoustic Metalhead
 
 ## 9. Personal Reflection  
 
-<!-- DRAFT: rewrite this in your own words and add your own details before submitting. -->
 
 **Biggest learning moment:** I really questioned why Gym Hero scored higher than Rooftop Lights for a happy pop listener, so I took a deeper look at its score breakdown. It wasn't a bug: Gym Hero got 2 points just for being labeled pop, which is more than a happy song gets for matching the mood. Every rule seemed reasonable on its own, but together they let one loud pop song show up in 5 of 6 lists. The weights are a design choice with real consequences, not just numbers.
 
